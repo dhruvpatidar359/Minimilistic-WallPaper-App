@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,6 +27,8 @@ import com.squareup.picasso.Target;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,23 +39,43 @@ public class CategoriesFragment extends Fragment{
 
     private FragmentCategoriesBinding binding;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
 
+        Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(binding.imageView);
+
 
         binding.downlordbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Picasso.get().load("https://media.istockphoto.com/photos/beautiful-emeraldcolored-glacial-rivers-of-iceland-taken-from-a-picture-id1202227531?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_image.jpeg"));
-                ContextWrapper cw = new ContextWrapper(container.getContext());
-                File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                File myImageFile = new File(directory, "my_image.jpeg");
-                Picasso.get().load(myImageFile).into(binding.imageView);
+                Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_imag.jpeg"));
 
+                File file = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+                if (file.isFile()) {
+                    Toast.makeText(getContext(), "ye waha pe file chutiye", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Downloading", Toast.LENGTH_SHORT).show();
+                    // ...
+
+
+                    try {
+                        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+                        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+                        binding.imageView.setImageBitmap(b);
+
+
+                    } catch (FileNotFoundException e) {
+                        Log.d("mc","chutiya");
+                        e.printStackTrace();
+                    }
+
+                }
             }
+
         });
 
 
@@ -64,7 +88,22 @@ public class CategoriesFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        File f=new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+        Bitmap b = null;
+        try {
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+            binding.imageView.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
