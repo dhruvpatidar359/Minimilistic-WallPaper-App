@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -17,14 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wallpaperapp.R;
 import com.example.wallpaperapp.models.imageModel;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public class ResponsiveItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener
-{
+
+
+
+public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     public static final int NUMBER_OF_ROWS_AUTO = -1;
 
     Context context;
@@ -36,8 +43,7 @@ public class ResponsiveItemListAdapter extends RecyclerView.Adapter<RecyclerView
     int rowHeightInPx = 0;
     boolean itemHeightCalculationCompleted = false;
 
-    public ResponsiveItemListAdapter(Context context, List<imageModel> items, RecyclerViewItemClickListeners listener, RecyclerView rv, int rows)
-    {
+    public ImageAdapter(Context context, List<imageModel> items, RecyclerViewItemClickListeners listener, RecyclerView rv, int rows) {
         super();
         this.context = context;
         this.items = items;
@@ -46,15 +52,11 @@ public class ResponsiveItemListAdapter extends RecyclerView.Adapter<RecyclerView
         this.recyclerView = rv;
         this.numberOfRows = rows;
 
-        if (this.numberOfRows > 0)
-        {
-            this.recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
-            {
+        if (this.numberOfRows > 0) {
+            this.recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
-                public void onGlobalLayout()
-                {
-                    if (recyclerView.getMeasuredHeight() > 0)
-                    {
+                public void onGlobalLayout() {
+                    if (recyclerView.getMeasuredHeight() > 0) {
                         recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         setRowHeightInPx(recyclerView.getMeasuredHeight() / numberOfRows);
                         itemHeightCalculationCompleted = true;
@@ -62,26 +64,22 @@ public class ResponsiveItemListAdapter extends RecyclerView.Adapter<RecyclerView
                     }
                 }
             });
-        } else
-        {
+        } else {
             itemHeightCalculationCompleted = true;
         }
 
     }
 
-    public int getRowHeightInPx()
-    {
+    public int getRowHeightInPx() {
         return rowHeightInPx;
     }
 
-    public void setRowHeightInPx(int rowHeightInPx)
-    {
+    public void setRowHeightInPx(int rowHeightInPx) {
         this.rowHeightInPx = rowHeightInPx;
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         if (this.items != null && this.itemHeightCalculationCompleted)
             return this.items.size();
         else
@@ -89,12 +87,10 @@ public class ResponsiveItemListAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
         View view = this.layoutInflater.inflate(R.layout.item, parent, false);
-        if (getRowHeightInPx() > 0)
-        {
+        if (getRowHeightInPx() > 0) {
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) view.getLayoutParams();
             layoutParams.height = getRowHeightInPx();
             layoutParams.width = MATCH_PARENT;
@@ -105,72 +101,78 @@ public class ResponsiveItemListAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
-    {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         imageModel page = items.get(position);
 
         CardView view = ((CardView) ((GeneralViewHolder) holder).getView());
         ((GeneralViewHolder) holder).getTitle().setText(page.getImage_name());
 
-        File ff = new File(page.getImage(), "my_imag.jpeg");
-        Bitmap b = null;
-        try {
-            b = BitmapFactory.decodeStream(new FileInputStream(ff));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ((GeneralViewHolder) holder).getImg().setImageBitmap(b);
+
+
         ((GeneralViewHolder) holder).getView().setOnClickListener(this);
         ((GeneralViewHolder) holder).getView().setTag(position);
+        Sprite wanderingCubes = new WanderingCubes();
+        ((GeneralViewHolder) holder).getProgressBar().setIndeterminateDrawable(wanderingCubes);
+        Picasso.get().load(page.getImage()).into(((GeneralViewHolder) holder).getImg(), new Callback() {
+            @Override
+            public void onSuccess() {
+                ((GeneralViewHolder) holder).getProgressBar().setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
     }
 
 
     @Override
-    public void onViewRecycled(RecyclerView.ViewHolder holder)
-    {
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
     }
 
 
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         int position = (int) v.getTag();
         this.listener.onRecyclerViewItemClick(this.items, position);
     }
 
-    public class GeneralViewHolder extends RecyclerView.ViewHolder
-    {
+    public class GeneralViewHolder extends RecyclerView.ViewHolder {
 
         View view;
         TextView title;
         ImageView img;
+        ProgressBar progressBar;
 
-        public GeneralViewHolder(View itemView)
-        {
+        public GeneralViewHolder(View itemView) {
             super(itemView);
             view = itemView;
+            progressBar = itemView.findViewById(R.id.progressBar1);
             title = itemView.findViewById(R.id.title);
             img = itemView.findViewById(R.id.latestImage);
         }
 
 
-        public View getView()
-        {
+        public View getView() {
             return view;
         }
 
-        public TextView getTitle()
-        {
+        public TextView getTitle() {
             return title;
         }
 
-        public ImageView getImg(){ return img;}
+        public ImageView getImg() {
+            return img;
+        }
 
+        public ProgressBar getProgressBar() {
+            return progressBar;
+        }
     }
 
-    public interface RecyclerViewItemClickListeners
-    {
+    public interface RecyclerViewItemClickListeners {
         void onRecyclerViewItemClick(List<imageModel> items, int position);
     }
 }

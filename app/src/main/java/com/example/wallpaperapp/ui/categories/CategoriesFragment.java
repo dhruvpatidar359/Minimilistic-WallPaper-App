@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class CategoriesFragment extends Fragment{
+public class CategoriesFragment extends Fragment {
 
     private FragmentCategoriesBinding binding;
 
@@ -46,38 +46,55 @@ public class CategoriesFragment extends Fragment{
 
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
 
-        Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(binding.imageView);
 
+        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+        if(!f.isFile()) {
+            Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(binding.imageView);
+            Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_imag.jpeg"));
 
-        binding.downlordbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_imag.jpeg"));
+        }
 
-                File file = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
-                if (file.isFile()) {
-                    Toast.makeText(getContext(), "ye waha pe file chutiye", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Downloading", Toast.LENGTH_SHORT).show();
-                    // ...
-
-
-                    try {
-                        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
-                        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+        else{
+            try {
+                        File ff = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+                        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(ff));
                         binding.imageView.setImageBitmap(b);
 
 
                     } catch (FileNotFoundException e) {
-                        Log.d("mc","chutiya");
+                        Log.d("mc", "chutiya");
                         e.printStackTrace();
                     }
-
-                }
-            }
-
-        });
-
+        }
+//        binding.downlordbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                File file = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+//                if (file.isFile()) {
+//                    Toast.makeText(getContext(), "ye waha pe file chutiye", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(getContext(), "Downloading", Toast.LENGTH_SHORT).show();
+//                    Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_imag.jpeg"));
+//                    // ...
+//
+//
+//                    try {
+//                        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+//                        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//                        binding.imageView.setImageBitmap(b);
+//
+//
+//                    } catch (FileNotFoundException e) {
+//                        Log.d("mc", "chutiya");
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//
+//        });
 
 
 
@@ -92,19 +109,26 @@ public class CategoriesFragment extends Fragment{
 
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("resume","me running");
 
-        File f=new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+
+
+
+        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+
+        if(f.exists()){
+
         Bitmap b = null;
         try {
             b = BitmapFactory.decodeStream(new FileInputStream(f));
             binding.imageView.setImageBitmap(b);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-
+        }}
     }
 
     private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
@@ -144,7 +168,8 @@ public class CategoriesFragment extends Fragment{
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
-                if (placeHolderDrawable != null) {}
+                if (placeHolderDrawable != null) {
+                }
             }
         };
     }
@@ -152,13 +177,4 @@ public class CategoriesFragment extends Fragment{
 
 
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
-
-
-
-}
