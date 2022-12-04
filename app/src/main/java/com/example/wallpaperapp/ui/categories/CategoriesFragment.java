@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,15 +27,18 @@ import com.squareup.picasso.Target;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class CategoriesFragment extends Fragment{
+public class CategoriesFragment extends Fragment {
 
     private FragmentCategoriesBinding binding;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,18 +47,54 @@ public class CategoriesFragment extends Fragment{
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
 
 
-        binding.downlordbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Picasso.get().load("https://media.istockphoto.com/photos/beautiful-emeraldcolored-glacial-rivers-of-iceland-taken-from-a-picture-id1202227531?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_image.jpeg"));
-                ContextWrapper cw = new ContextWrapper(container.getContext());
-                File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                File myImageFile = new File(directory, "my_image.jpeg");
-                Picasso.get().load(myImageFile).into(binding.imageView);
+        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+        if(!f.isFile()) {
+            Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(binding.imageView);
+            Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_imag.jpeg"));
 
-            }
-        });
+        }
 
+        else{
+            try {
+                        File ff = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+                        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(ff));
+                        binding.imageView.setImageBitmap(b);
+
+
+                    } catch (FileNotFoundException e) {
+                        Log.d("mc", "chutiya");
+                        e.printStackTrace();
+                    }
+        }
+//        binding.downlordbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                File file = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+//                if (file.isFile()) {
+//                    Toast.makeText(getContext(), "ye waha pe file chutiye", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(getContext(), "Downloading", Toast.LENGTH_SHORT).show();
+//                    Picasso.get().load("https://media.istockphoto.com/photos/icon-concept-circulating-in-the-hands-of-young-women-for-environment-picture-id1360783154?s=612x612").into(picassoImageTarget(container.getContext(), "imageDir", "my_imag.jpeg"));
+//                    // ...
+//
+//
+//                    try {
+//                        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+//                        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//                        binding.imageView.setImageBitmap(b);
+//
+//
+//                    } catch (FileNotFoundException e) {
+//                        Log.d("mc", "chutiya");
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//
+//        });
 
 
 
@@ -64,8 +105,30 @@ public class CategoriesFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("resume","me running");
+
+
+
+
+        File f = new File("/data/data/com.example.wallpaperapp/app_imageDir", "my_imag.jpeg");
+
+        if(f.exists()){
+
+        Bitmap b = null;
+        try {
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+            binding.imageView.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }}
     }
 
     private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
@@ -105,7 +168,8 @@ public class CategoriesFragment extends Fragment{
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
-                if (placeHolderDrawable != null) {}
+                if (placeHolderDrawable != null) {
+                }
             }
         };
     }
@@ -113,13 +177,4 @@ public class CategoriesFragment extends Fragment{
 
 
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
-
-
-
-}
