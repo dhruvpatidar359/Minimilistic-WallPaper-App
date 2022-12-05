@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -45,6 +46,7 @@ public class Wallpaper_Set extends AppCompatActivity {
 
 ImageView img;
 Button btn;
+TextView textView;
 ProgressBar progressBar;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -54,6 +56,7 @@ ProgressBar progressBar;
 
      img = findViewById(R.id.preview_img);
      btn = findViewById(R.id.set_button);
+     textView = findViewById(R.id.title_wallpaper);
 
          progressBar = (ProgressBar)findViewById(R.id.progressBar);
         Sprite wanderingCubes = new WanderingCubes();
@@ -66,6 +69,7 @@ ProgressBar progressBar;
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(fff));
             progressBar.setVisibility(View.GONE);
             img.setImageBitmap(b);
+            textView.setText(getIntent().getExtras().getString("imageName"));
 
 
 
@@ -114,10 +118,14 @@ ProgressBar progressBar;
     public  Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
         Log.d("picassoImageTarget", " picassoImageTarget");
         ContextWrapper cw = new ContextWrapper(context);
+
         final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
+
         return new Target() {
+
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                Log.d("thiss","Nha");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -125,10 +133,13 @@ ProgressBar progressBar;
 
                         FileOutputStream fos = null;
                         try {
+
                             fos = new FileOutputStream(myImageFile);
+
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                         } catch (IOException e) {
                             e.printStackTrace();
+
                         } finally {
                             try {
                                 fos.close();
@@ -146,11 +157,14 @@ ProgressBar progressBar;
                                         Bitmap b = null;
                                         try {
                                             b = BitmapFactory.decodeStream(new FileInputStream(ff));
+
                                         } catch (FileNotFoundException e) {
                                             Log.d("notfound","bhai gfile nahe mele mmuje");
                                             e.printStackTrace();
                                         }
                                         img.setImageBitmap(b);
+                                        textView.setText(getIntent().getExtras().getString("imageName"));
+
                                         progressBar.setVisibility(View.GONE); // to hide
 
 

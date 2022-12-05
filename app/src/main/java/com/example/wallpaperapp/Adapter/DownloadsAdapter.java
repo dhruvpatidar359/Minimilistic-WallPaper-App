@@ -5,6 +5,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ import java.util.List;
 
 
 
-public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class DownloadsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     public static final int NUMBER_OF_ROWS_AUTO = -1;
 
     Context context;
@@ -43,7 +44,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     int rowHeightInPx = 0;
     boolean itemHeightCalculationCompleted = false;
 
-    public ImageAdapter(Context context, List<imageModel> items, RecyclerViewItemClickListeners listener, RecyclerView rv, int rows) {
+    public DownloadsAdapter(Context context, List<imageModel> items, RecyclerViewItemClickListeners listener, RecyclerView rv, int rows) {
         super();
         this.context = context;
         this.items = items;
@@ -89,7 +90,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View view = this.layoutInflater.inflate(R.layout.item, parent, false);
+        View view = this.layoutInflater.inflate(R.layout.item2, parent, false);
         if (getRowHeightInPx() > 0) {
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) view.getLayoutParams();
             layoutParams.height = getRowHeightInPx();
@@ -105,25 +106,23 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         imageModel page = items.get(position);
 
         CardView view = ((CardView) ((GeneralViewHolder) holder).getView());
+
         ((GeneralViewHolder) holder).getTitle().setText(page.getImage_name());
+        try {
+            File ff = new File("/data/data/com.example.wallpaperapp/app_dhruvimages", page.getImage_name());
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(ff));
+            ((GeneralViewHolder) holder).getImg().setImageBitmap(b);
 
 
+        } catch (FileNotFoundException e) {
+            Log.d("mc", "chutiya");
+            e.printStackTrace();
+        }
 
         ((GeneralViewHolder) holder).getView().setOnClickListener(this);
         ((GeneralViewHolder) holder).getView().setTag(position);
-        Sprite wanderingCubes = new WanderingCubes();
-        ((GeneralViewHolder) holder).getProgressBar().setIndeterminateDrawable(wanderingCubes);
-        Picasso.get().load(page.getDownloadableImage()).into(((GeneralViewHolder) holder).getImg(), new Callback() {
-            @Override
-            public void onSuccess() {
-                ((GeneralViewHolder) holder).getProgressBar().setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onError(Exception e) {
 
-            }
-        });
     }
 
 
@@ -144,14 +143,14 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         View view;
         TextView title;
         ImageView img;
-        ProgressBar progressBar;
+
 
         public GeneralViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            progressBar = itemView.findViewById(R.id.progressBar1);
-            title = itemView.findViewById(R.id.title);
-            img = itemView.findViewById(R.id.latestImage);
+
+            title = itemView.findViewById(R.id.title1);
+            img = itemView.findViewById(R.id.latestImage1);
         }
 
 
@@ -167,9 +166,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return img;
         }
 
-        public ProgressBar getProgressBar() {
-            return progressBar;
-        }
+
     }
 
     public interface RecyclerViewItemClickListeners {

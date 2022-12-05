@@ -1,8 +1,10 @@
 package com.example.wallpaperapp.ui.latest;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +53,7 @@ public class LatestFragment extends Fragment implements ImageAdapter.RecyclerVie
 
                             imgs.add(models);
                         }
-                        Log.d("models",(imgs.get(1).getImage()));
+                        Log.d("models",(imgs.get(1).getDownloadableImage()));
                         imageAdapter.notifyDataSetChanged();
 
                     }
