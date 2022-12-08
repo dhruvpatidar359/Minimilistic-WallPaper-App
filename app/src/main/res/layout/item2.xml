@@ -10,33 +10,21 @@
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="5dp">
 
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/latestImage"
+        android:id="@+id/latestImage1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
 
         android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title1"
         style="@style/txt_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:enabled="true"
-
         android:padding="15dp" />
 
 </androidx.cardview.widget.CardView>

@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
-import com.example.wallpaperapp.models.DatabaseModel;
 import com.example.wallpaperapp.models.imageModel;
+
 import java.util.ArrayList;
 
 
@@ -45,16 +45,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return check > 0;
     }
 
-    public ArrayList<DatabaseModel> getOrders(){
-        ArrayList<DatabaseModel> items = new ArrayList<>();
+    public ArrayList<imageModel> getOrders(){
+        ArrayList<imageModel> items = new ArrayList<>();
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery("Select * from imageDownloading",null);
 
         if(cursor.moveToFirst()){
             while(true){
-                DatabaseModel model  = new DatabaseModel();
+                imageModel model  = new imageModel();
                 model.setImage_name(cursor.getString(1));
-                model.setAddress(cursor.getString(0));
+                model.setDownloadableImage(cursor.getString(0));
 
 
                 items.add(model);

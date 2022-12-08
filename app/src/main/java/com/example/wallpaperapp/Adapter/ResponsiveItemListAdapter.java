@@ -112,7 +112,7 @@ public class ResponsiveItemListAdapter extends RecyclerView.Adapter<RecyclerView
         CardView view = ((CardView) ((GeneralViewHolder) holder).getView());
         ((GeneralViewHolder) holder).getTitle().setText(page.getImage_name());
 
-        File ff = new File(page.getImage(), "my_imag.jpeg");
+        File ff = new File(page.getDownloadableImage(), "my_imag.jpeg");
         Bitmap b = null;
         try {
             b = BitmapFactory.decodeStream(new FileInputStream(ff));
