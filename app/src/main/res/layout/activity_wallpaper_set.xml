@@ -58,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.like.LikeButton
-        android:id="@+id/star_button"
+        android:id="@+id/heart_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"

@@ -1,10 +1,9 @@
 package com.example.wallpaperapp.ui.latest;
 
-import android.app.ActivityOptions;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 public class LatestFragment extends Fragment implements ImageAdapter.RecyclerViewItemClickListeners {
@@ -53,7 +52,7 @@ public class LatestFragment extends Fragment implements ImageAdapter.RecyclerVie
 
                             imgs.add(models);
                         }
-                        Log.d("models",(imgs.get(1).getDownloadableImage()));
+
                         imageAdapter.notifyDataSetChanged();
 
                     }
@@ -86,23 +85,11 @@ public class LatestFragment extends Fragment implements ImageAdapter.RecyclerVie
     public void onRecyclerViewItemClick(List<imageModel> items, int position) {
 
 
-//        Glide.with(getContext())
-//                .asBitmap()
-//                .load(items.get(position).getDownloadableImage())
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                        try {
-//                            WallpaperManager.getInstance(getContext()).setBitmap(resource);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                });
 
         Intent intent = new Intent(getContext(), Wallpaper_Set.class);
-        intent.putExtra("URI",items.get(position).getDownloadableImage());
+        intent.putExtra("URI",items.get(position).getHeavyDownloadbaleImages());
+        intent.putExtra("preview_URL", items.get(position).getDownloadableImage());
+
         intent.putExtra("imageName",items.get(position).getImage_name());
 
         startActivity(intent);

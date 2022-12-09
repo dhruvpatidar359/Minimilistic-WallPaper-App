@@ -2,16 +2,15 @@ package com.example.wallpaperapp;
 
 import android.os.Bundle;
 
-import com.example.wallpaperapp.ui.categories.CategoriesFragment;
-import com.example.wallpaperapp.ui.favourite.favourite_fragment;
-import com.example.wallpaperapp.ui.latest.LatestFragment;
-import com.example.wallpaperapp.ui.downlords.DownlordsFragment;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wallpaperapp.databinding.ActivityMainBinding;
+import com.example.wallpaperapp.ui.categories.CategoriesFragment;
+import com.example.wallpaperapp.ui.downlords.DownlordsFragment;
+import com.example.wallpaperapp.ui.favourite.favourite_fragment;
+import com.example.wallpaperapp.ui.latest.LatestFragment;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
@@ -37,8 +36,6 @@ public class MainActivity extends AppCompatActivity{
         binding.dotsIndicator.setViewPager(binding.viewPager);
 
     }
-
-
 
 
 }

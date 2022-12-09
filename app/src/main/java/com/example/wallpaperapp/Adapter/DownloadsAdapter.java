@@ -5,13 +5,11 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -19,17 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wallpaperapp.R;
 import com.example.wallpaperapp.models.imageModel;
-import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.WanderingCubes;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
-
-
 
 
 public class DownloadsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
@@ -109,13 +101,13 @@ public class DownloadsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         ((GeneralViewHolder) holder).getTitle().setText(page.getImage_name());
         try {
-            File ff = new File("/data/data/com.example.wallpaperapp/app_dhruvimages", page.getImage_name());
+            File ff = new File("/data/data/com.example.wallpaperapp/app_preview_Images", page.getImage_name());
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(ff));
             ((GeneralViewHolder) holder).getImg().setImageBitmap(b);
 
 
         } catch (FileNotFoundException e) {
-            Log.d("mc", "chutiya");
+
             e.printStackTrace();
         }
 

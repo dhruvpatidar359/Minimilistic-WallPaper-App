@@ -3,8 +3,6 @@ package com.example.wallpaperapp.Adapter;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +21,7 @@ import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
-
-
 
 
 public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
@@ -106,7 +99,6 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         CardView view = ((CardView) ((GeneralViewHolder) holder).getView());
         ((GeneralViewHolder) holder).getTitle().setText(page.getImage_name());
-
 
 
         ((GeneralViewHolder) holder).getView().setOnClickListener(this);

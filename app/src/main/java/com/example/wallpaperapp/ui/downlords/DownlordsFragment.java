@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.wallpaperapp.Adapter.DownloadsAdapter;
-import com.example.wallpaperapp.Adapter.ImageAdapter;
+
 import com.example.wallpaperapp.databinding.FragmentDownlordBinding;
 import com.example.wallpaperapp.db.DBHelper;
 import com.example.wallpaperapp.models.imageModel;
@@ -38,30 +38,6 @@ public class DownlordsFragment extends Fragment implements DownloadsAdapter.Recy
 
         binding.recycleLatestDownload.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recycleLatestDownload.setAdapter(imageAdapter);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return binding.getRoot();
 
 
@@ -77,8 +53,9 @@ public class DownlordsFragment extends Fragment implements DownloadsAdapter.Recy
     public void onRecyclerViewItemClick(List<imageModel> items, int position) {
 
         Intent intent = new Intent(getContext(), Wallpaper_Set.class);
-        intent.putExtra("URI",items.get(position).getDownloadableImage());
         intent.putExtra("imageName",items.get(position).getImage_name());
+        intent.putExtra("URI",items.get(position).getHeavyDownloadbaleImages());
+        intent.putExtra("preview_URL",items.get(position).getDownloadableImage());
 
         startActivity(intent);
     }
