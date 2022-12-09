@@ -102,7 +102,9 @@ public class LatestFragment extends Fragment implements ImageAdapter.RecyclerVie
 //                });
 
         Intent intent = new Intent(getContext(), Wallpaper_Set.class);
-        intent.putExtra("URI",items.get(position).getDownloadableImage());
+        intent.putExtra("URI",items.get(position).getHeavyDownloadbaleImages());
+        intent.putExtra("preview_URL", items.get(position).getDownloadableImage());
+        Log.d("Checking",items.get(position).getHeavyDownloadbaleImages());
         intent.putExtra("imageName",items.get(position).getImage_name());
 
         startActivity(intent);

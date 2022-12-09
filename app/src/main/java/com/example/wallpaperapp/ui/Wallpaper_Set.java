@@ -74,7 +74,7 @@ LikeButton likeButton;
 
         try {
 
-            File fff = new File("/data/data/com.example.wallpaperapp/app_dhruvimages", getIntent().getExtras().getString("imageName"));
+            File fff = new File("/data/data/com.example.wallpaperapp/app_heavyImages", getIntent().getExtras().getString("imageName"));
             Log.d("yaha","File load nahe hue");
             if(fff.exists()) {
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(fff));
@@ -92,7 +92,8 @@ LikeButton likeButton;
             }
 
             else{
-                Picasso.get().load(getIntent().getExtras().getString("URI")).into(picassoImageTarget(getApplicationContext(), "dhruvimages", getIntent().getExtras().getString("imageName")));
+                Picasso.get().load(getIntent().getExtras().getString("URI")).into(picassoImageTarget(getApplicationContext(), "heavyImages", getIntent().getExtras().getString("imageName")));
+                Picasso.get().load(getIntent().getExtras().getString("preview_URL")).into(picassoImageTarget(getApplicationContext(), "preview_Images", getIntent().getExtras().getString("imageName")));
             }
 
 
@@ -129,7 +130,7 @@ LikeButton likeButton;
          public void onClick(View view) {
 
 
-             File ff = new File("/data/data/com.example.wallpaperapp/app_dhruvimages", getIntent().getExtras().getString("imageName"));
+             File ff = new File("/data/data/com.example.wallpaperapp/app_heavyImages", getIntent().getExtras().getString("imageName"));
              Bitmap b = null;
              try {
                  b = BitmapFactory.decodeStream(new FileInputStream(ff));
@@ -191,31 +192,36 @@ LikeButton likeButton;
 
                                     @Override
                                     public void run() {
+if(imageDir.equals("heavyImages")) {
+    DBHelper dbHelper = new DBHelper(getApplicationContext());
+    dbHelper.insertFuction("/data/data/com.example.wallpaperapp/app_heavyImages", getIntent().getExtras().getString("imageName"));
 
-                                        DBHelper dbHelper = new DBHelper(getApplicationContext());
-                                        dbHelper.insertFuction("/data/data/com.example.wallpaperapp/app_dhruvimages",getIntent().getExtras().getString("imageName"));
+    File ff = new File("/data/data/com.example.wallpaperapp/app_heavyImages", getIntent().getExtras().getString("imageName"));
+    Bitmap b = null;
+    try {
+        b = BitmapFactory.decodeStream(new FileInputStream(ff));
 
-                                        File ff = new File("/data/data/com.example.wallpaperapp/app_dhruvimages", getIntent().getExtras().getString("imageName"));
-                                        Bitmap b = null;
-                                        try {
-                                            b = BitmapFactory.decodeStream(new FileInputStream(ff));
+    } catch (FileNotFoundException e) {
+        Log.d("notfound", "bhai gfile nahe mele mmuje");
+        e.printStackTrace();
+    }
+    img.setImageBitmap(b);
+    textView.setText(getIntent().getExtras().getString("imageName"));
+    likeButton.setEnabled(true);
 
-                                        } catch (FileNotFoundException e) {
-                                            Log.d("notfound","bhai gfile nahe mele mmuje");
-                                            e.printStackTrace();
-                                        }
-                                        img.setImageBitmap(b);
-                                        textView.setText(getIntent().getExtras().getString("imageName"));
-                                        likeButton.setEnabled(true);
+    String isLiked = dbHelper.getFav(getIntent().getExtras().getString("imageName"));
 
-                                        String isLiked = dbHelper.getFav(getIntent().getExtras().getString("imageName"));
+    if (isLiked.equals("true")) {
+        likeButton.setLiked(true);
+    }
+    dbHelper.close();
 
-                                        if(isLiked.equals("true")){
-                                            likeButton.setLiked(true);
-                                        }
-                                        dbHelper.close();
-
-                                        progressBar.setVisibility(View.GONE); // to hide
+    progressBar.setVisibility(View.GONE); // to hide
+}
+else{
+    DBHelper dbHelper = new DBHelper(getApplicationContext());
+    dbHelper.insertPreview("/data/data/com.example.wallpaperapp/app_preview_Images", getIntent().getExtras().getString("imageName"));
+}
 
 
                                     }

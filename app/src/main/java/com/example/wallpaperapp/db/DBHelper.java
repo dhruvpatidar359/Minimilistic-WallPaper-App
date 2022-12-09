@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
     final static String name = "Database.db";
-    final static int DBverion = 5;
+    final static int DBverion = 6;
 
     public DBHelper(@Nullable Context context) {
         super(context, name, null, DBverion);
@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        sqLiteDatabase.execSQL("create table imageDownloading" + "(" + "address text,"+"image_name text,"+"isFav text default 'false')");
+        sqLiteDatabase.execSQL("create table imageDownloading" + "(" + "address text,"+"preview_images text,"+"image_name text,"+"isFav text default 'false')");
     }
 
     @Override
@@ -72,6 +72,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor.getString(0);
     }
 
+    public boolean insertPreview(String address , String image_name){
+
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        values.put("preview_images",address);
+
+        long check = sqLiteDatabase.update("imageDownloading",values,"image_name=?",new String[]{name});
+        sqLiteDatabase.close();
+        return check > 0;
+    }
+
     public boolean removeFav(String name){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();
@@ -91,8 +104,10 @@ public class DBHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             while(true){
                 imageModel model  = new imageModel();
-                model.setImage_name(cursor.getString(1));
-                model.setDownloadableImage(cursor.getString(0));
+                model.setImage_name(cursor.getString(2));
+                model.setDownloadableImage(cursor.getString(1));
+                model.setHeavyDownloadbaleImages(cursor.getString(0));
+
 
 
                 items.add(model);
@@ -113,8 +128,9 @@ public class DBHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             while(true){
                 imageModel model  = new imageModel();
-                model.setImage_name(cursor.getString(1));
-                model.setDownloadableImage(cursor.getString(0));
+                model.setImage_name(cursor.getString(2));
+                model.setDownloadableImage(cursor.getString(1));
+                model.setHeavyDownloadbaleImages(cursor.getString(0));
 
 
                 items.add(model);

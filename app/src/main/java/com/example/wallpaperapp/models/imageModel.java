@@ -7,6 +7,17 @@ public class imageModel {
 
     String image_name;
     String downloadableImage;
+    String heavyDownloadbaleImages;
+
+    public String getHeavyDownloadbaleImages() {
+        return heavyDownloadbaleImages;
+    }
+
+    public void setHeavyDownloadbaleImages(String heavyDownloadbaleImages) {
+        this.heavyDownloadbaleImages = heavyDownloadbaleImages;
+    }
+
+
 
     public String getDownloadableImage() {
         return downloadableImage;
