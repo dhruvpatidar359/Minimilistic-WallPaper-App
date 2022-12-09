@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.wallpaperapp.Adapter.DownloadsAdapter;
-import com.example.wallpaperapp.Adapter.ImageAdapter;
+
 import com.example.wallpaperapp.databinding.FragmentDownlordBinding;
 import com.example.wallpaperapp.db.DBHelper;
 import com.example.wallpaperapp.models.imageModel;

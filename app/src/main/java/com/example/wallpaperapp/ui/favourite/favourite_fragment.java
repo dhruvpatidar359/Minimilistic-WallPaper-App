@@ -8,8 +8,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +54,7 @@ public class favourite_fragment extends Fragment implements DownloadsAdapter.Rec
 
 
 
-Log.d("debug1","we are calling onVIew Create");
+
 
 
         return binding.getRoot();
@@ -69,7 +67,7 @@ Log.d("debug1","we are calling onVIew Create");
     public void onResume() {
         super.onResume();
         RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_view_favourite);
-        Log.d("debug1","this is resume");
+
 
         DBHelper dbHelper = new DBHelper(getContext());
         ArrayList<imageModel> items = new ArrayList<>();

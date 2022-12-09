@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
 
 import androidx.annotation.Nullable;
 
@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        sqLiteDatabase.execSQL("create table imageDownloading" + "(" + "address text,"+"preview_images text,"+"image_name text,"+"isFav text default 'false')");
+        sqLiteDatabase.execSQL("create table imageDownloading" + "(" + "address text," + "preview_images text," + "image_name text," + "isFav text default 'false')");
     }
 
     @Override
@@ -35,24 +35,26 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
 
     }
-    public boolean insertFuction(String address , String image_name){
+
+    public boolean insertFuction(String address, String image_name) {
 
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("image_name",image_name);
-        values.put("address",address);
+        values.put("image_name", image_name);
+        values.put("address", address);
 
-        long check = sqLiteDatabase.insert("imageDownloading",null,values);
+        long check = sqLiteDatabase.insert("imageDownloading", null, values);
         return check > 0;
     }
-    public boolean insertFav(String name){
+
+    public boolean insertFav(String name) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("isFav" , "true");
-        Log.d("this",name);
-        long check = sqLiteDatabase.update("imageDownloading",values,"image_name=?",new String[]{name});
+        values.put("isFav", "true");
+
+        long check = sqLiteDatabase.update("imageDownloading", values, "image_name=?", new String[]{name});
         sqLiteDatabase.close();
 
         return check > 0;
@@ -60,74 +62,50 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public String getFav(String name){
+    public String getFav(String name) {
 
         SQLiteDatabase database = this.getWritableDatabase();
 
 //        Cursor cursor=database.query("imageDownloading",new String[]{"isFav"},"isFav" + "=" + "true",null,null,null,null);
-        Cursor cursor = database.rawQuery("Select isFav from imageDownloading where image_name = "+"\""+name+"\"",null);
+        Cursor cursor = database.rawQuery("Select isFav from imageDownloading where image_name = " + "\"" + name + "\"", null);
 
         cursor.moveToFirst();
-        Log.d("this",cursor.getString(0));
+
         return cursor.getString(0);
     }
 
-    public boolean insertPreview(String address , String image_name){
+    public boolean insertPreview(String address, String image_name) {
 
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();
 
 
-        values.put("preview_images",address);
+        values.put("preview_images", address);
 
-        long check = sqLiteDatabase.update("imageDownloading",values,"image_name=?",new String[]{name});
+        long check = sqLiteDatabase.update("imageDownloading", values, "image_name=?", new String[]{name});
         sqLiteDatabase.close();
         return check > 0;
     }
 
-    public boolean removeFav(String name){
+    public boolean removeFav(String name) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("isFav","false");
-        long check = sqLiteDatabase.update("imageDownloading",values,"image_name=?",new String[]{name});
+        values.put("isFav", "false");
+        long check = sqLiteDatabase.update("imageDownloading", values, "image_name=?", new String[]{name});
         sqLiteDatabase.close();
 
-        return check>0;
+        return check > 0;
     }
 
-    public ArrayList<imageModel> getOrders(){
+    public ArrayList<imageModel> getOrders() {
         ArrayList<imageModel> items = new ArrayList<>();
         SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery("Select * from imageDownloading",null);
+        Cursor cursor = database.rawQuery("Select * from imageDownloading", null);
 
-        if(cursor.moveToFirst()){
-            while(true){
-                imageModel model  = new imageModel();
-                model.setImage_name(cursor.getString(2));
-                model.setDownloadableImage(cursor.getString(1));
-                model.setHeavyDownloadbaleImages(cursor.getString(0));
-
-
-
-                items.add(model);
-
-                if(!cursor.moveToNext()) break;
-            }
-
-        }
-        cursor.close();
-        database.close();
-        return items;
-    }
-    public ArrayList<imageModel> getOrdersFav(){
-        ArrayList<imageModel> items = new ArrayList<>();
-        SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery("Select * from imageDownloading where isFav = "+"\""+"true"+"\"",null);
-
-        if(cursor.moveToFirst()){
-            while(true){
-                imageModel model  = new imageModel();
+        if (cursor.moveToFirst()) {
+            while (true) {
+                imageModel model = new imageModel();
                 model.setImage_name(cursor.getString(2));
                 model.setDownloadableImage(cursor.getString(1));
                 model.setHeavyDownloadbaleImages(cursor.getString(0));
@@ -135,7 +113,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 items.add(model);
 
-                if(!cursor.moveToNext()) break;
+                if (!cursor.moveToNext()) break;
             }
 
         }
@@ -144,6 +122,29 @@ public class DBHelper extends SQLiteOpenHelper {
         return items;
     }
 
+    public ArrayList<imageModel> getOrdersFav() {
+        ArrayList<imageModel> items = new ArrayList<>();
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery("Select * from imageDownloading where isFav = " + "\"" + "true" + "\"", null);
+
+        if (cursor.moveToFirst()) {
+            while (true) {
+                imageModel model = new imageModel();
+                model.setImage_name(cursor.getString(2));
+                model.setDownloadableImage(cursor.getString(1));
+                model.setHeavyDownloadbaleImages(cursor.getString(0));
+
+
+                items.add(model);
+
+                if (!cursor.moveToNext()) break;
+            }
+
+        }
+        cursor.close();
+        database.close();
+        return items;
+    }
 
 
 }
