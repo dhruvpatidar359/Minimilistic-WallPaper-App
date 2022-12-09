@@ -38,30 +38,6 @@ public class DownlordsFragment extends Fragment implements DownloadsAdapter.Recy
 
         binding.recycleLatestDownload.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recycleLatestDownload.setAdapter(imageAdapter);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return binding.getRoot();
 
 

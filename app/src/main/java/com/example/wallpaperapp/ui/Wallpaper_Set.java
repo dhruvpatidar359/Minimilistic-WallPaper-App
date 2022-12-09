@@ -32,6 +32,8 @@ import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.ChasingDots;
 import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -48,6 +50,9 @@ ImageView img;
 Button btn;
 TextView textView;
 ProgressBar progressBar;
+LikeButton likeButton;
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,10 @@ ProgressBar progressBar;
      img = findViewById(R.id.preview_img);
      btn = findViewById(R.id.set_button);
      textView = findViewById(R.id.title_wallpaper);
+     likeButton = findViewById(R.id.heart_button);
+     likeButton.setEnabled(false);
+
+
 
          progressBar = (ProgressBar)findViewById(R.id.progressBar);
         Sprite wanderingCubes = new WanderingCubes();
@@ -64,22 +73,55 @@ ProgressBar progressBar;
 
 
         try {
+
             File fff = new File("/data/data/com.example.wallpaperapp/app_dhruvimages", getIntent().getExtras().getString("imageName"));
             Log.d("yaha","File load nahe hue");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(fff));
-            progressBar.setVisibility(View.GONE);
-            img.setImageBitmap(b);
-            textView.setText(getIntent().getExtras().getString("imageName"));
+            if(fff.exists()) {
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream(fff));
+                progressBar.setVisibility(View.GONE);
+                img.setImageBitmap(b);
+                textView.setText(getIntent().getExtras().getString("imageName"));
+                likeButton.setEnabled(true);
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                String isLiked = dbHelper.getFav(getIntent().getExtras().getString("imageName"));
+                dbHelper.close();
+
+                if (isLiked.equals("true")) {
+                    likeButton.setLiked(true);
+                }
+            }
+
+            else{
+                Picasso.get().load(getIntent().getExtras().getString("URI")).into(picassoImageTarget(getApplicationContext(), "dhruvimages", getIntent().getExtras().getString("imageName")));
+            }
 
 
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Picasso.get().load(getIntent().getExtras().getString("URI")).into(picassoImageTarget(getApplicationContext(), "dhruvimages", getIntent().getExtras().getString("imageName")));
+
         }
 
 
 
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                likeButton.setLiked(true);
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                dbHelper.insertFav(getIntent().getExtras().getString("imageName"));
+                dbHelper.close();
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                likeButton.setLiked(false);
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                dbHelper.removeFav((getIntent().getExtras().getString("imageName")));
+                dbHelper.close();
+            }
+        });
 
 
      btn.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +206,14 @@ ProgressBar progressBar;
                                         }
                                         img.setImageBitmap(b);
                                         textView.setText(getIntent().getExtras().getString("imageName"));
+                                        likeButton.setEnabled(true);
+
+                                        String isLiked = dbHelper.getFav(getIntent().getExtras().getString("imageName"));
+
+                                        if(isLiked.equals("true")){
+                                            likeButton.setLiked(true);
+                                        }
+                                        dbHelper.close();
 
                                         progressBar.setVisibility(View.GONE); // to hide
 
