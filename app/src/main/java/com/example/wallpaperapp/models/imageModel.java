@@ -6,6 +6,17 @@ public class imageModel {
     String tags;
     String webformatURL;
     String largeImageURL;
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+
+        this.id = id;
+    }
+
 
     public String getLargeImageURL() {
         return largeImageURL;
@@ -33,13 +44,6 @@ public class imageModel {
         this.tags = tags;
     }
 
-
-    public imageModel(String image_name, String downlordableImage) {
-
-
-        this.tags = image_name;
-        this.webformatURL = downlordableImage;
-    }
 
     public imageModel() {
     }

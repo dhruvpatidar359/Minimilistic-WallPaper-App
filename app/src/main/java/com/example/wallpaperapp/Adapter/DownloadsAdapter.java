@@ -101,7 +101,7 @@ public class DownloadsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         ((GeneralViewHolder) holder).getTitle().setText(page.getTags());
         try {
-            File ff = new File("/data/data/com.example.wallpaperapp/app_preview_Images", page.getTags());
+            File ff = new File("/data/data/com.example.wallpaperapp/app_preview_Images", page.getId());
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(ff));
             ((GeneralViewHolder) holder).getImg().setImageBitmap(b);
 
