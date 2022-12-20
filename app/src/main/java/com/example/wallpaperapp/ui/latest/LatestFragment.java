@@ -1,6 +1,7 @@
 package com.example.wallpaperapp.ui.latest;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -15,8 +16,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wallpaperapp.Adapter.ImageAdapter;
+import com.example.wallpaperapp.R;
 import com.example.wallpaperapp.RetrofitClient;
 import com.example.wallpaperapp.databinding.FragmentLatestBinding;
 import com.example.wallpaperapp.db.DBHelper;
@@ -30,25 +33,33 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class LatestFragment extends Fragment implements ImageAdapter.RecyclerViewItemClickListeners {
 
-    private FragmentLatestBinding binding;
+
     private List<imageModel> imageList;
+    RecyclerView recyclerView;
 
 
+    @SuppressLint("UseRequireInsteadOfGet")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentLatestBinding.inflate(inflater, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_latest, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_latest);
 
 
-        getThumbnail();
+getThumbnail();
 
-        return binding.getRoot();
+
+        return view;
+
+
     }
 
     private void getThumbnail() {
@@ -64,10 +75,10 @@ public class LatestFragment extends Fragment implements ImageAdapter.RecyclerVie
                         if (imageList != null && imageList.size() > 0) {
 
 
-                            ImageAdapter imageAdapter = new ImageAdapter(requireContext(), imageList, LatestFragment.this, binding.recycleLatest, 2);
-                            binding.recycleLatest.setHasFixedSize(true);
-                            binding.recycleLatest.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                            binding.recycleLatest.setAdapter(imageAdapter);
+                            ImageAdapter imageAdapter = new ImageAdapter(requireContext(), imageList, LatestFragment.this, recyclerView, 2);
+                          recyclerView.setHasFixedSize(true);
+                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                            recyclerView.setAdapter(imageAdapter);
 
                         }
                     }
@@ -85,7 +96,7 @@ public class LatestFragment extends Fragment implements ImageAdapter.RecyclerVie
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+
     }
 
     @Override
