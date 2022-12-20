@@ -98,14 +98,14 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         imageModel page = items.get(position);
 
         CardView view = ((CardView) ((GeneralViewHolder) holder).getView());
-        ((GeneralViewHolder) holder).getTitle().setText(page.getImage_name());
+        ((GeneralViewHolder) holder).getTitle().setText(page.getTags());
 
 
         ((GeneralViewHolder) holder).getView().setOnClickListener(this);
         ((GeneralViewHolder) holder).getView().setTag(position);
         Sprite wanderingCubes = new WanderingCubes();
         ((GeneralViewHolder) holder).getProgressBar().setIndeterminateDrawable(wanderingCubes);
-        Picasso.get().load(page.getDownloadableImage()).into(((GeneralViewHolder) holder).getImg(), new Callback() {
+        Picasso.get().load(page.getWebformatURL()).into(((GeneralViewHolder) holder).getImg(), new Callback() {
             @Override
             public void onSuccess() {
                 ((GeneralViewHolder) holder).getProgressBar().setVisibility(View.GONE);

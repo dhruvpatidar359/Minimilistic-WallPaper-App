@@ -21,9 +21,7 @@
         <activity
             android:name=".ui.Wallpaper_Set"
             android:exported="false" />
-        <activity
-            android:name=".Inner_Interface"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
