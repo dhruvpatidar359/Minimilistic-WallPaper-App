@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 import androidx.annotation.Nullable;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
     final static String name = "Database.db";
-    final static int DBverion = 6;
+    final static int DBverion = 10;
 
     public DBHelper(@Nullable Context context) {
         super(context, name, null, DBverion);
@@ -78,12 +79,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();
+        Log.d("This",address);
+        Log.d("This",image_name);
 
 
         values.put("preview_images", address);
 
-        long check = sqLiteDatabase.update("imageDownloading", values, "image_name=?", new String[]{name});
-        sqLiteDatabase.close();
+        long check = sqLiteDatabase.update("imageDownloading", values, "image_name=?", new String[]{image_name});
+        Log.d("This",Long.toString(check));
+
         return check > 0;
     }
 
@@ -106,9 +110,9 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             while (true) {
                 imageModel model = new imageModel();
-                model.setImage_name(cursor.getString(2));
-                model.setDownloadableImage(cursor.getString(1));
-                model.setHeavyDownloadbaleImages(cursor.getString(0));
+                model.setTags(cursor.getString(2));
+                model.setWebformatURL(cursor.getString(1));
+                model.setLargeImageURL(cursor.getString(0));
 
 
                 items.add(model);
@@ -130,9 +134,9 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             while (true) {
                 imageModel model = new imageModel();
-                model.setImage_name(cursor.getString(2));
-                model.setDownloadableImage(cursor.getString(1));
-                model.setHeavyDownloadbaleImages(cursor.getString(0));
+                model.setTags(cursor.getString(2));
+                model.setWebformatURL(cursor.getString(1));
+                model.setLargeImageURL(cursor.getString(0));
 
 
                 items.add(model);

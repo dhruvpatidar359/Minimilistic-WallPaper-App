@@ -86,9 +86,9 @@ public class favourite_fragment extends Fragment implements DownloadsAdapter.Rec
     public void onRecyclerViewItemClick(List<imageModel> items, int position) {
 
         Intent intent = new Intent(getContext(), Wallpaper_Set.class);
-        intent.putExtra("URI",items.get(position).getHeavyDownloadbaleImages());
-        intent.putExtra("preview_URL",items.get(position).getDownloadableImage());
-        intent.putExtra("imageName",items.get(position).getImage_name());
+        intent.putExtra("URI",items.get(position).getLargeImageURL());
+        intent.putExtra("preview_URL",items.get(position).getWebformatURL());
+        intent.putExtra("imageName",items.get(position).getTags());
 
         startActivity(intent);
     }

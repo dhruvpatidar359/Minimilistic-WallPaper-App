@@ -3,42 +3,42 @@ package com.example.wallpaperapp.models;
 public class imageModel {
 
 
-    String image_name;
-    String downloadableImage;
-    String heavyDownloadbaleImages;
+    String tags;
+    String webformatURL;
+    String largeImageURL;
 
-    public String getHeavyDownloadbaleImages() {
-        return heavyDownloadbaleImages;
+    public String getLargeImageURL() {
+        return largeImageURL;
     }
 
-    public void setHeavyDownloadbaleImages(String heavyDownloadbaleImages) {
-        this.heavyDownloadbaleImages = heavyDownloadbaleImages;
-    }
-
-
-    public String getDownloadableImage() {
-        return downloadableImage;
-    }
-
-    public void setDownloadableImage(String downloadableImage) {
-        this.downloadableImage = downloadableImage;
+    public void setLargeImageURL(String largeImageURL) {
+        this.largeImageURL = largeImageURL;
     }
 
 
-    public String getImage_name() {
-        return image_name;
+    public String getWebformatURL() {
+        return webformatURL;
     }
 
-    public void setImage_name(String image_name) {
-        this.image_name = image_name;
+    public void setWebformatURL(String webformatURL) {
+        this.webformatURL = webformatURL;
+    }
+
+
+    public String getTags() {
+        return tags.split(",")[0];
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
 
     public imageModel(String image_name, String downlordableImage) {
 
 
-        this.image_name = image_name;
-        this.downloadableImage = downlordableImage;
+        this.tags = image_name;
+        this.webformatURL = downlordableImage;
     }
 
     public imageModel() {
