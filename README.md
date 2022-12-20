@@ -6,10 +6,13 @@ An Android software that provides a set of high-definition, original wallpapers.
 
 ## 💡 Features Used
 
-Used Firebase Realtime Database to store data.<br />
-Used Firebase Storage.<br />
+Used pixabay api for developing app <br />
+Used library like retrofit for fetching data from api<br />
 Used RecyclerView.<br />
 Used Offline database sqlite.<br />
+Have Favourite Section <br/>
+Have Download section in which the wallpaper can be accessed offline<br/>
+Category section is under development 🔧<br/>
 <h1 align=center> Project Admin  🤵 </h1>
 
   <p align="center">
