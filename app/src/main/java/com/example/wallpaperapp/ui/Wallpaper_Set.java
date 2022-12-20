@@ -199,7 +199,7 @@ if(imageDir.equals("heavyImages")) {
 
 
     DBHelper dbHelper = new DBHelper(getApplicationContext());
-    dbHelper.insertFuction("/data/data/com.example.wallpaperapp/app_heavyImages", getIntent().getExtras().getString("imageName"));
+    dbHelper.insertPreview("/data/data/com.example.wallpaperapp/app_heavyImages", getIntent().getExtras().getString("imageName"));
 
 
     textView.setText(getIntent().getExtras().getString("imageName"));

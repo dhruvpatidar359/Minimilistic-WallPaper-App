@@ -43,7 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put("image_name", image_name);
-        values.put("address", address);
+        values.put("preview_images", address);
 
         long check = sqLiteDatabase.insert("imageDownloading", null, values);
         return check > 0;
@@ -83,7 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("This",image_name);
 
 
-        values.put("preview_images", address);
+        values.put("address", address);
 
         long check = sqLiteDatabase.update("imageDownloading", values, "image_name=?", new String[]{image_name});
         Log.d("This",Long.toString(check));

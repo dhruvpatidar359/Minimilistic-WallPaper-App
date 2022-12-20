@@ -107,6 +107,7 @@ String imageName = items.get(position).getTags();
         intent.putExtra("URI",items.get(position).getLargeImageURL());
         intent.putExtra("preview_URL",preview_URL);
         intent.putExtra("imageName",imageName);
+
         Picasso.get().load(preview_URL).into(picassoImageTarget(getContext(), "preview_Images",imageName));
 
         startActivity(intent);
@@ -145,7 +146,7 @@ String imageName = items.get(position).getTags();
                                         fos.close();
 
                                         DBHelper dbHelper = new DBHelper(getContext());
-                                        dbHelper.insertPreview("/data/data/com.example.wallpaperapp/app_preview_Images",imageName);
+                                        dbHelper.insertFuction("/data/data/com.example.wallpaperapp/app_preview_Images",imageName);
                                         Log.d("This","Preview ho gaya database me");
                                         dbHelper.close();
 
