@@ -23,7 +23,7 @@ Category section is under development 🔧<br/>
   <a href="https://www.instagram.com/dhruvpatidar359/"><img src="https://img.shields.io/badge/instagram-%23D14836.svg?&style=for-the-badge&logo=instagram&logoColor=pink" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
-
+<p> Download the apk using this link : https://github.com/dhruvpatidar359/Releastic-WallPaper-App/blob/master/app/release/app-release.apk </p>
  <p> Images of the project </p>
  
  
