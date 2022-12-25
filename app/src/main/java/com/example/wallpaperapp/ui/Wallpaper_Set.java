@@ -120,6 +120,7 @@ public class Wallpaper_Set extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+             
 
 
                 File ff = new File("/data/data/com.example.wallpaperapp/app_heavyImages", getIntent().getExtras().getString("id"));
@@ -145,7 +146,9 @@ public class Wallpaper_Set extends AppCompatActivity {
                             }
 
                         });
+
             }
+
         });
 
     }

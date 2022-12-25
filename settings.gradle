@@ -2,6 +2,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
+
         mavenCentral()
     }
 }
@@ -10,8 +11,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         maven { url 'https://jitpack.io' }
+
         mavenCentral()
+
     }
 }
 rootProject.name = "WallPaperApp"
 include ':app'
+
