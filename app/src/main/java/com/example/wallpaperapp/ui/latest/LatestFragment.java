@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wallpaperapp.Adapter.ImageAdapter;
 import com.example.wallpaperapp.R;
 import com.example.wallpaperapp.RetrofitClient;
-import com.example.wallpaperapp.databinding.FragmentLatestBinding;
 import com.example.wallpaperapp.db.DBHelper;
 import com.example.wallpaperapp.models.Response;
 import com.example.wallpaperapp.models.imageModel;

@@ -16,7 +16,7 @@
     </style>
 
     <style name="txt_2">
-        <item name="android:textSize">@dimen/_30pxh</item>
+        <item name="android:textSize">@dimen/_15pxh</item>
         <item name="android:textColor">@color/white_A700</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="android:textFontWeight" tools:targetApi="p">600</item>

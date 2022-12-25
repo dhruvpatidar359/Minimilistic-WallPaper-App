@@ -1,5 +1,7 @@
 package com.example.wallpaperapp.models;
 
+import java.util.Locale;
+
 public class imageModel {
 
 
@@ -37,7 +39,7 @@ public class imageModel {
 
 
     public String getTags() {
-        return tags.split(",")[0];
+        return tags.split(",")[0].toUpperCase(Locale.ROOT);
     }
 
     public void setTags(String tags) {
